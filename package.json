@@ -2,10 +2,9 @@
   "name": "chkialapp",
   "version": "1.0.0",
   "description": "Chkial's App Marbre",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app"
+    "DevStart" : "nodemon app.js"
   },
   "author": "Fdilat Radouche",
   "license": "MIT",
@@ -14,6 +13,7 @@
     "express": "^4.18.2",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
+    "nodemo": "^1.0.0",
     "path": "^0.12.7",
     "sequelize": "^6.25.3",
     "serve-static": "^1.15.0"

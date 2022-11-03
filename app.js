@@ -4,6 +4,8 @@ const clients = require("./routes/Clients.route");
 const ceramique = require("./routes/Ceramique.route");
 const orders = require("./routes/Orders.route");
 
+
+app.use(express.json());
 app.use("/client", clients);
 app.use("/ceramique", ceramique);
 app.use("/orders", orders);

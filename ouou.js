@@ -1,9 +1,1 @@
-// how to insert object in database with expressjs?
-
-
-
-
-
-
-
-
+// how to solve push is not a function ?

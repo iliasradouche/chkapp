@@ -1,34 +1,91 @@
-const User = require("../models/Client");
+const client = require("../models/Client.js");
 
-var connection = require("../database");
+const connection = require("../database.js");
 
-/* Clients = [
-  new client.Client(1, "wick", "john"),
-  new client.Client(2, "maggio", "carol"),
-  new client.Client(3, "dalton", "jack"),
-]; */
-async function createJane()  {
-const jane = await User.create({ name: "Jane" });
-// Jane exists in the database now!
-console.log(jane instanceof User); // true
-console.log(jane.name); // "Jane"
-}
 exports.getAll = (req, res, next) => {
-  createJane()
-  const query = connection.query("SELECT * FROM test", (err, result) => {
+  const query = connection.query("select * from client", (err, result) => {
     console.log(query.sql);
-    if (err) {
-      return res.status(500).json({
-        erreur: err,
-      });
-    }
     return res.status(200).json(result);
-  }); 
-
+  });
 };
 
-exports.getOneById = (req, res, next) => {};
-exports.add = (req, res, next) => {};
-exports.edit = (req, res, next) => {};
-exports.delete = (req, res, next) => {};
+exports.getOneById = (req, res, next) => {
+  const query = connection.query(
+    "SELECT * FROM client WHERE id = ?",
+    req.params.id,
+    (err, result) => {
+      console.log(query.sql);
+      if (err) {
+        return res.status(404).json({
+          error: `client avec l'identifiant ${req.params.id} non trouvée`,
+        });
+      } else {
+        return res.status(200).json(result[0]);
+      }
+    }
+  );
+};
 
+exports.add = (req, res, next) => {
+  const p = new client.client(
+    req.body.nom,
+    req.body.num,
+    req.body.adresse
+  );
+  const query = connection.query(
+    "INSERT INTO client SET ?",
+    p,
+    (err, result) => {
+      console.log(query.sql);
+      if (err) {
+        console.log("error: ", err);
+        return res.status(500).json({
+          error: `Probleme d'insertion`,
+        });
+      } else {
+        p.id = result.insertId;
+        return res.status(201).json(p);
+      }
+    }
+  );
+};
+
+exports.edit = (req, res, next) => {
+  const id = parseInt(req.params.id);
+  const p = new client.client(
+    req.body.nom,
+    req.body.num,
+    req.body.adresse,
+  );
+  const query = connection.query("UPDATE client set ? where id = ?", [p, id], (err, result) => {
+    console.log(query.sql)
+    if(err) {
+      console.log("error: ", err);
+      return res.status(500).json({
+        error: `Probleme de mise ajour`
+      });
+    }
+    else{
+      return res.status(200).json({
+        message: `Personne avec l'indentifiant ${req.params.id} modifiée avec succée`
+      });
+    }
+  });
+};
+exports.delete = (req, res, next) => {
+  const id = parseInt(req.params.id);
+  const query = connection.query("DELETE FROM client WHERE id = ?", id, (err, result) =>{
+    console.log(query.sql)
+    if(err){
+      console.log("error: ", err);
+      return res.status(500).json({
+        error:`Probleme de suppression`
+      });
+    }
+    else {
+      return res.status(200).json({
+        message: `Client avec l'identifiant ${ req.params.id} supprimée avec succés`
+      });
+    }
+  });
+};
