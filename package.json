@@ -4,7 +4,7 @@
   "description": "Chkial's App Marbre",
   "main": "index.js",
   "scripts": {
-    "DevStart" : "nodemon app.js"
+    "DevStart": "nodemon app.js"
   },
   "author": "Fdilat Radouche",
   "license": "MIT",
@@ -14,7 +14,9 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "nodemo": "^1.0.0",
+    "nodemon": "^2.0.20",
     "path": "^0.12.7",
+    "pug": "^3.0.2",
     "sequelize": "^6.25.3",
     "serve-static": "^1.15.0"
   }
